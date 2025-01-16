@@ -1,0 +1,305 @@
+/* Page Layout */
+.dialerPageBodyContainer {
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  gap: 20px; /* Spacing between the dialer and the options container */
+  /* margin-top: 5%; */
+}
+
+/* iPhone Outer Container */
+.iphoneContainer {
+  background: linear-gradient(180deg, #f1f1f1, #e3e3e3);
+  border-radius: 50px;
+  border: 6px solid #141414;
+  width: 350px; /* iPhone width */
+  height: 650px; /* iPhone height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottomIosMenuButton {
+  width: 100px;  /* Fixed width */
+  color: transparent;
+  margin-bottom: 50px;
+  font-size: 3px;  /* Font size */
+  text-align: center;  /* Center text inside the button */
+  border-radius: 20px;  /* Rounded corners for better appearance */
+  background-color: black;  /* Add a background color */
+  border: 2px solid black;  /* Border around the button */
+}
+
+/* iPhone Top Bar */
+.iphoneTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: white;
+  color: black;
+  /* font-size: 12px; */
+  height: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+.time {
+  margin-left: 2%;
+}
+.iphoneTopBar .time {
+  font-weight: bold;
+}
+
+.iphoneTopBar .statusIcons {
+  display: flex;
+  gap: 8px;
+}
+
+.statusIcons .signal,
+.statusIcons .wifi,
+.statusIcons .battery {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* Dialer Screen */
+.iphoneDialerScreen {
+  background: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Align content to the bottom */
+  align-items: center;
+  padding-bottom: 20px; /* Add some padding for spacing */
+}
+
+.dialerContainer {
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  padding-bottom: 10%;
+}
+
+
+/* Display for Dialed Number */
+.display {
+  border-radius: 10px;
+  font-size: 1.5rem;
+  /* padding: 10px 20px; */
+  padding: 5%;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+.displayNumberText{
+  color:black;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Keypad Layout */
+/* Keypad Layout */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 10px; /* Space between buttons */
+  justify-items: center; /* Center the buttons horizontally */
+  align-items: center; /* Center the buttons vertically */
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.topCameraBazel{
+  background-color: black;
+  width: 110px;
+  height: 25px;
+  border-radius: 110px;
+}
+
+.dialButton {
+  background-color: rgb(228, 226, 226);
+  border-radius: 50%; /* Circular buttons */
+  width: 62px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #333;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  /* font-size: medium; */
+}
+.buttonNumber{
+  font-size: x-large
+}
+
+.keypadLetters{
+  font-size: x-small
+}
+
+.dialButton:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
+}
+.callNowClearContainer {
+  display: flex;
+  gap: 15%;
+  margin-bottom: 10%;
+}
+
+/* Call Button */
+.callNowButton {
+  position: relative; /* Ensure it can be positioned within the container */
+  width: 65px;
+  height: 65px;
+  background-color: rgb(110, 189, 110);
+  border-radius: 50%;
+  color: white;
+  font-size: 2rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  margin-left:38%;
+}
+
+.callNowButton:hover {
+  transform: scale(1.1);
+  background-color: rgb(110, 189, 110);
+}
+
+/* Clear Button */
+.clearButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clearButton {
+  background-color: transparent;
+  color:rgb(228, 226, 226);
+  padding: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.clearButton:hover {
+  background-color: transparent;
+  transform: scale(1.4);
+}
+
+/* Title */
+.dialNumberTitle {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Pool Options Container */
+.poolOptionsContainer {
+  background-color: white;
+  color: black;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.poolOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.optionButton {
+  background-color: #4f5357;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.optionButton:hover {
+  background-color: #888888;
+}
+
+.bottomCallNavbar{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap:6%;
+}
+.bottomCallNavbarOptionContainer{
+  display:flex;
+  flex-direction: column;
+  color:#acacac;
+  align-items: center;
+}
+.bottomCallNavbarOptionContainer:hover{
+  opacity: 70%;
+}
+.bottomDialerOptionsText{
+  color: #acacac;
+  font-size: x-small;
+}
+
+.buttonContent{
+  display: flex;
+  flex-direction: column;
+}
+.bottomKeypadRow{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dialerPageBodyContainer {
+    flex-direction: column; /* Stack the dialer and options container */
+  }
+
+  .iphoneContainer {
+    width: 320px;
+    height: 700px;
+  }
+
+  .poolOptionsContainer {
+    width: 90%; /* Full width for smaller screens */
+  }
+
+  .dialButton {
+    width: 60px;
+    height: 60px;
+    font-size: 1.2rem;
+    background-color: grey;
+  }
+
+  .callNowButton {
+    width: 70px;
+    height: 70px;
+  }
+}

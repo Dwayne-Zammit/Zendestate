@@ -1,0 +1,268 @@
+/* General Page Styling */
+.pageBodyContainer {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    /* justify-content: center; */
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+    margin-top:2%;
+    /* min-height: 100vh; */
+  }
+  
+  /* Styling for the Phone Number Generation Section */
+  .generatePhoneNumberContainer {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    /* max-width: 600px; */
+    margin-top: 20%;
+    margin: 5% auto;
+  }
+  
+  .generatePhoneNumberContainer h2 {
+    font-size: 28px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .generatePhoneNumberContainer button {
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 95%;
+    display: block;
+    margin: 2%;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  }
+
+  .generatePhoneNumberButton{
+    margin-left: 50%;
+  }
+
+  .generatePhoneNumberContainer button:hover {
+    background-color: #313131; /* Darker blue */
+    transform: translateY(-2px); /* Slight lift effect */
+  }
+  
+  .generatePhoneNumberContainer p {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .generatePhoneNumberContainer p.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .generatePhoneNumberContainer p.success {
+    color: #28a745;
+    font-weight: bold;
+    text-align: center;
+  }
+  .generatedPhoneNumberSectionTitle{
+    text-align: center;
+  }
+  
+  .statusButtonInterested{
+    background-color: rgb(112, 185, 112);
+  }
+  .statusButtonNotInterested{
+    background-color: orange;
+  }
+  .statusButtonDoNotCall{
+    background-color: red;
+  }
+
+  .statusButtonSkip{
+    background-color: grey;
+  }
+  .generatedPhoneNumberContainerLeftColumn{
+    width: 500px;
+  }
+  /* Styling for the Generated Number Section */
+  .generatedPhoneNumberContainer {
+    margin-top: 20px;
+    border-top: 2px solid #f1f1f1;
+    padding-top: 15px;
+  }
+  .generatedPhoneNumberContentsContainer{
+    display: flex;
+    gap:10%;
+    width:100%;
+    justify-content: center;
+  }
+  
+  .generatedPhoneNumber {
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Styling for Phone Status Dropdown */
+  .phoneStatusDropdownContainer {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .phoneStatusDropdownContainer select {
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    width: 100%;
+    max-width: 300px;
+    transition: border-color 0.2s ease;
+  }
+  
+  .phoneStatusDropdownContainer select:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .phoneStatusDropdownContainer select option {
+    padding: 10px;
+    background-color: #fff;
+  }
+  
+  /* Styling for History Section */
+  .generatedNumberHistory {
+    background-color: #fafafa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  
+  .generatedNumberHistory p {
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  /* Scrollable list styling */
+  .generatedNumberHistory ul {
+    list-style-type: none;
+    padding-left: 0;
+    max-height: 300px; /* Set a max-height for the scrollable area */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    margin-bottom: 0;
+  }
+  
+  .generatedNumberHistory li {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .generatedNumberHistory li hr {
+    margin: 10px 0;
+    border-color: #f1f1f1;
+  }
+  
+  /* Styling for individual history items */
+  .generatedNumberHistory li p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .generatedNumberHistory li p strong {
+    color: #333;
+  }
+  
+  /* Hover effect for history items */
+  .generatedNumberHistory li:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .generatePhoneNumberButton {
+    background-color: #333333;
+  }
+  
+  /* Styling for error message */
+  .error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  .generatedPhoneNumberContainer{
+  display: flex;
+  justify-content: center;
+  gap:20%;
+}
+
+.generatedPhoneNumberBox {
+  background-color: #ffffff;
+  height: 10%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;  
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #e0e0e0;  
+}
+  
+  .generatedPhoneNumberContainerBox {
+  background-color: white; /* White background for a clean look */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Add space inside the box */
+  margin: 10px; /* Add space outside the box */
+  width: 100%; /* Make it responsive */
+  max-width: 400px; /* Optional: Limit the width */
+  text-align: left; /* Align text to the left */
+  font-family: Arial, sans-serif; /* Modern font */
+  color: #333; /* Neutral text color */
+  transition: box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.generatedPhoneNumberContainerBox:hover {
+  box-shadow: 0px 6px 12px rgba(1, 0, 0, 0.50); /* Enhance shadow on hover */
+}
+
+.generatedPhoneNumberTitle {
+  font-size: 1.2rem; /* Title size */
+  font-weight: bold; /* Make the title bold */
+  margin-bottom: 10px; /* Add space below the title */
+  color: #555; /* Slightly darker color for title */
+}
+
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    .generatePhoneNumberContainer {
+      padding: 20px;
+      width: 90%;
+    }
+  
+    .generatedPhoneNumberContainer {
+      margin-top: 15px;
+      padding-top: 10px;
+    }
+  
+    .phoneStatusDropdownContainer select {
+      width: 100%;
+    }
+  }
+  

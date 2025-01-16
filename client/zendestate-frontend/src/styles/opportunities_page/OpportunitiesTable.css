@@ -1,0 +1,40 @@
+/* Table styling */
+.opportunitiesTableWrapper {
+    overflow-y: auto;
+    max-height: 400px;
+}
+  
+.opportunitiesTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+  
+.opportunitiesTable th,
+.opportunitiesTable td {
+  font-size: small;
+  padding: 12px 15px;
+  /* border: 1px solid #ddd; */
+  word-wrap: break-word;
+}
+
+.opportunitiesTable th {
+  background-color: #0b0618;
+  color: white;
+  font-weight: bold;
+}
+
+.opportunitiesTable tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.opportunitiesTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.opportunitiesTable thead {
+  position: sticky;
+  top: 0;
+  background-color: #272727;
+}

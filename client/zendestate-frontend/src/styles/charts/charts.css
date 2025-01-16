@@ -1,0 +1,28 @@
+.chartSelect {
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #2c2c2c;
+  border: 1px solid #1c1d1c;
+  border-radius: 5px;
+  outline: none;
+  appearance: none; /* Removes default arrow in some browsers */
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.chartSelect:hover {
+  background-color: #3e3e3e;
+  border-color: #81c784;
+}
+
+.chartSelect:focus {
+  border-color: #2c2869;
+  box-shadow: 0 0 5px rgba(102, 187, 106, 0.5);
+  background-color: #424242;
+}
+
+.chartSelect option {
+  background-color: #242424;
+  color: #ffffff;
+}

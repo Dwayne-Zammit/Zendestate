@@ -1,0 +1,38 @@
+.paginationControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .paginationControls button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+  }
+  
+  .paginationControls button:hover {
+    background-color: #e3e3e3;
+  }
+  
+  .paginationControls button:disabled {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  .paginationControls button.active {
+    background-color: #0b0618;
+    color: white;
+    border-color: #bbc7d4;
+  }
+  
+  .paginationControls button.active:hover {
+    cursor: not-allowed;
+  }
+  

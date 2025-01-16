@@ -1,0 +1,235 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  font-family: 'Roboto', sans-serif;
+  --primary-color: #060a0e;
+  --secondary-color: #121d27;
+  --accent-color: #f1eeee;
+  --background-gradient: #3b3b3b;
+  --font-color-dark: #2d3436;
+  --font-color-light: #ffffff;
+  --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* Main body styles */
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  color: var(--font-color-dark);
+  background: var(--background-gradient);
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  /* position: relative; */
+}
+
+/* Galaxy Animation Background */
+.galaxyBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #1e1f26, #2e3535, #000428);
+  animation: galaxyMove 15s infinite alternate ease-in-out;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.pageContainer {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.LoadingScreen{
+
+  text-align: center;
+  color:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+/* Keyframes for galaxy background movement */
+@keyframes galaxyMove {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(-50px) translateY(-30px) scale(1.1);
+  }
+  100% {
+    transform: translateX(0) translateY(0) scale(1);
+  }
+}
+
+/* Animated Background Gradient (No Diagonal Lines) */
+@keyframes movingBackground {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 50% 50%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Apply moving background gradient to the body */
+body {
+  background: linear-gradient(45deg, #1e1f26, #2e3535, #000428);
+  animation: movingBackground 40s ease-in-out infinite;
+}
+
+/* Stars Background */
+.starsBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Individual Star */
+.starsBackground .star {
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: twinkle 2s infinite alternate, moveStars 10s linear infinite;
+}
+
+/* Twinkling Effect */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Moving Stars */
+@keyframes moveStars {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    transform: translateX(100px) translateY(100px);
+  }
+}
+
+/* Style for the select element */
+select {
+  background-color: white;
+  color: #333;
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  position: relative; /* For positioning the custom arrow */
+}
+
+/* Style for the select element when focused */
+select:focus {
+  border-color: #ff7675;
+  background-color: #fff;
+}
+
+/* Style for the select options */
+select option {
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+}
+
+/* Hover effect for options */
+select option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Disabled select */
+select:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+/* Remove default dropdown arrow in most browsers */
+select::-ms-expand {
+  display: none; /* Removes default arrow in IE */
+}
+
+/* Style for custom dropdown arrow */
+select {
+  appearance: none; /* Removes default arrow in most browsers */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><polygon points="0,0 12,0 6,12" fill="#333"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Adjust position */
+  background-size: 12px;
+}
+
+/* Custom padding to make space for the dropdown arrow */
+select {
+  padding-right: 30px; /* Adds space on the right for the custom arrow */
+}
+
+/* Optional: Hover effect for the dropdown indicating interactivity */
+select:hover {
+  border-color: #ff7675; /* Change border color when hovering */
+  cursor: pointer; /* Change cursor to indicate dropdown */
+}
+
+
+.LoadingScreen {
+  text-align: center;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ensures it fills the viewport */
+  background-color: #1a1a1a; /* A subtle dark background */
+  font-size: 1.5rem; /* Slightly larger text */
+  font-family: Arial, sans-serif;
+  animation: fadeIn 0.5s ease-in-out; /* Smooth fade-in effect */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Optional: Spinner */
+.spinner {
+  margin-left: 10px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
