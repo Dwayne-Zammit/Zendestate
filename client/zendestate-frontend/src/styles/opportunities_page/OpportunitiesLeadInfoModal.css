@@ -47,18 +47,20 @@
   
   /* Close button styling */
   .closeModalButton {
-    background-color: transparent;
-    color: red;
+    background-color: red;
+    color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     margin-top: 15px;
     margin-left:90%;
+    margin-bottom: 2%;
+    ;
   }
   
   .closeModalButton:hover {
-    background-color: #333;
-    color:white;
+    background-color: orange;
+    color:black
   }
   
   .newNotesContainer{

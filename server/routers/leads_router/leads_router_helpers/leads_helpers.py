@@ -8,42 +8,53 @@ from typing import List
 from tortoise.expressions import Q
 
 async def create_new_call_history(request_json, user_data):
-    try:
-        # Validate the request data using the Pydantic schema
-        phone_history_data = CallHistorySchema(**request_json)  # Validate and parse the input data
+    # try:
+    # Validate the request data using the Pydantic schema
+    phone_history_data = CallHistorySchema(**request_json)  # Validate and parse the input data
 
-        # Prepare data for the Lead model (Tortoise ORM model)
-        new_call_history = await TortoiseCallHistory.create(
-            call_history=phone_history_data.call_status,
-            phone_number=phone_history_data.phone_number,
-            creator=user_data["username"],  # Creator is the currently logged-in user
-            assignee=phone_history_data.assignee or "",  # If assignee is not provided, set it to an empty string
-            date_created=datetime.now(timezone.utc),  # Automatically set to current UTC time
-            date_modified=datetime.now(timezone.utc),  # Automatically set to current UTC time
-        )
-        return {"message": "Lead created successfully", "lead_id": new_call_history.id}
+    # Prepare data for the Lead model (Tortoise ORM model)
+    new_call_history = await TortoiseCallHistory.create(
+        call_history=phone_history_data.call_status,
+        phone_number=phone_history_data.phone_number,
+        creator=user_data["username"],  # Creator is the currently logged-in user
+        assignee=phone_history_data.assignee or "",  # If assignee is not provided, set it to an empty string
+        date_created=datetime.now(timezone.utc),  # Automatically set to current UTC time
+        date_modified=datetime.now(timezone.utc),  # Automatically set to current UTC time
+    )
+    return {"message": "Lead created successfully", "lead_id": new_call_history.id}
 
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error creating lead: {str(e)}")
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail=f"Error creating lead: {str(e)}")
 
 async def create_new_lead(request_json, user_data):
-    try:
-        # Validate the request data using the Pydantic schema
-        print(f"request json: {request_json}")
-        lead_data = CallHistorySchema(**request_json)  # Validate and parse the input data
-
-        # Prepare data for the Lead model (Tortoise ORM model)
-        new_lead = await TortoiseLead.create(
-            lead_status="New Lead",
-            phone_number=lead_data.phone_number,
-            creator=user_data["username"],  # Creator is the currently logged-in user
-            assignee=lead_data.assignee or "",  # If assignee is not provided, set it to an empty string
-            date_created=datetime.now(timezone.utc),  # Automatically set to current UTC time
-            date_modified=datetime.now(timezone.utc),  # Automatically set to current UTC time
-        )
-        return {"message": "Lead created successfully", "lead_id": new_lead.id}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error creating lead: {str(e)}")
+    # try:
+    # Validate the request data using the Pydantic schema
+    print(f"request json: {request_json}")
+    lead_data = LeadSchema(**request_json)  # Validate and parse the input data
+    
+    # Prepare data for the Lead model (Tortoise ORM model)
+    print("out of lead schema check")
+    new_lead = await TortoiseLead.create(
+        lead_status="New Lead",
+        phone_number=lead_data.phone_number,  # Using dot notation
+        creator=user_data["username"],  # Using dot notation
+        assignee=lead_data.assignee or None,  # If assignee is not provided, set it to None
+        date_created=datetime.now(timezone.utc),  # Automatically set to current UTC time
+        date_modified=datetime.now(timezone.utc),  # Automatically set to current UTC time
+        country=lead_data.country,  # Using dot notation
+        contact_name=lead_data.contact_name,  # Using dot notation
+        email=lead_data.email or None,  # Email is optional
+        age=int(lead_data.age),  # Convert age to an integer
+        locality_of_meeting=lead_data.locality_of_meeting or None,  # Locality is optional
+        occupation=lead_data.occupation or None,  # Occupation is optional
+        has_partner=lead_data.has_partner,  # Boolean for has_partner
+        interestedProducts=lead_data.interestedProducts or None,  # Interested products are optional
+        tracking_source=lead_data.tracking_source or None,  # Tracking source is optional
+        notes=lead_data.notes or None  # Notes are optional
+    )
+    return {"message": "Lead created successfully", "lead_id": new_lead.id}
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail=f"Error creating lead: {str(e)}")
 
 # Function to get lead history based on phone_number
 async def leads_history(phone_number: str) -> List[dict]:
@@ -69,25 +80,22 @@ async def leads_history(phone_number: str) -> List[dict]:
 
 # Function to get lead history based on phone_number
 async def call_history(phone_number: str) -> List[dict]:
-    try:
-        # Query the database to get the leads associated with the phone number
-        leads = await TortoiseCallHistory.filter(phone_number=phone_number).all()
-
-        # Convert the query results into a list of dictionaries
-        call_history = [{
-            "id": lead.id,
-            "call_history": lead.call_history,
-            "phone_number": lead.phone_number,
-            "creator": lead.creator,
-            "assignee": lead.assignee,
-            "date_created": lead.date_created,
-            "date_modified": lead.date_modified
-        } for lead in leads]
-
-        return call_history  # Return a list of dictionaries
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error fetching lead history: {str(e)}")    
+    # try:
+    # Query the database to get the leads associated with the phone number
+    leads = await TortoiseCallHistory.filter(phone_number=phone_number).all()
+    # Convert the query results into a list of dictionaries
+    call_history = [{
+        "id": lead.id,
+        "call_history": lead.call_history,
+        "phone_number": lead["phone_number"],
+        "creator": lead.creator,
+        "assignee": lead.assignee,
+        "date_created": lead.date_created,
+        "date_modified": lead.date_modified
+    } for lead in leads]
+    return call_history  # Return a list of dictionaries
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail=f"Error fetching lead history: {str(e)}")    
 
 # Utility function to apply filters
 async def apply_filters(query, filters: dict):

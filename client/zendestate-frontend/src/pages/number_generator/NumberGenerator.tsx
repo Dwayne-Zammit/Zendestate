@@ -2,23 +2,38 @@ import React, { useState } from 'react';
 import checkIfUserIsLoggedIn from '../../hooks/authentication/Auth';
 
 import '../../styles/numberGenerator.css';
-import StarsBackground from '../../components/background/StarsBackground'; // Import the StarsBackground component
+import StarsBackground from '../../components/background/StarsBackground';
+import InterestedFormModal from '../../components/number_generator/forms/InterestedFormModal';
 
 const NumberGeneratorPage: React.FC = () => {
   const { user, loading: userLoading } = checkIfUserIsLoggedIn();
   const [generatingPhoneNumber, setGeneratingPhoneNumber] = useState<boolean>(false);
+  const [leadSubmittedSuccessfully, setLeadSubmittedSuccessfully] = useState<boolean>(false);
   const [generatedNumber, setGeneratedNumber] = useState<string | null>(null);
-  const [generatedNumberHistory, setGeneratedNumberHistory] = useState<any[]>([]); // Initialize as an empty array
+  const [generatedNumberHistory, setGeneratedNumberHistory] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [phoneStatus, setPhoneStatus] = useState<string>('notSet'); // Set "notSet" as the default value
+  const [phoneStatus, setPhoneStatus] = useState<string>('notSet');
 
+  // Modal State
+  const [showInterestedModal, setShowInterestedModal] = useState<boolean>(false);
+  const [formData, setFormData] = useState({
+    contact_name: '',
+    email: '',
+    phone_number: '',
+    interestedProducts: '',
+    age: '',
+    hasPartner: false,
+    country: '',
+    locality_of_meeting: '',
+    occupation: '',
+    tracking_source: '',
+    notes: '',
+    lead_status: 'interested',
+  });
 
   const handleGeneratePhoneNumber = async () => {
-    // Set generatingPhoneNumber to true before starting the generation process
     setGeneratingPhoneNumber(true);
-
     try {
-      // Simulate a 500ms delay before showing the phone number generation process
       setTimeout(async () => {
         const response = await fetch('http://localhost:8000/assisted_dialer/generatePhoneNumber', {
           method: 'POST',
@@ -33,61 +48,161 @@ const NumberGeneratorPage: React.FC = () => {
         }
 
         const data = await response.json();
-        console.log("Phone number generated:", data);
         setPhoneStatus("notSet");
         setGeneratedNumber(data.generated_number);
-        setGeneratedNumberHistory(data.generated_number_history); // Make sure the response is an array
+        setGeneratedNumberHistory(data.generated_number_history);
         setError(null);
-
-        // After the generation is complete, set generatingPhoneNumber to false
         setGeneratingPhoneNumber(false);
-      }, 500);  // 500ms delay before making the actual request
+      }, 500);
     } catch (error) {
       console.error("Error generating phone number:", error);
       setError("Failed to generate phone number. Please try again.");
-
-      // In case of error, set generatingPhoneNumber to false
       setGeneratingPhoneNumber(false);
     }
   };
 
-  // Handle phone status change
   const handleStatusChange = async (selectedStatus: string) => {
-    setPhoneStatus(selectedStatus);
-
-    console.log({
-      "phoneNumber:": generatedNumber,
-      "Selected Phone Status:": selectedStatus,
-    });
-
-    // Send the lead status and phone number to the backend
     try {
       const response = await fetch('http://localhost:8000/leads/new_call_history', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with the request (for session)
+        credentials: 'include',
         body: JSON.stringify({
-          call_status: selectedStatus,  // Use the selected status
-          phone_number: generatedNumber,  // Use the generated phone number
+          call_status: selectedStatus,
+          phone_number: generatedNumber,
         }),
       });
 
-      // Handle the response from the backend
       if (!response.ok) {
         throw new Error('Failed to update phone status');
       }
       const data = await response.json();
+      if (selectedStatus === 'interested') {
+        setFormData((prev) => ({
+          ...prev,
+          phone_number: generatedNumber || '',
+        }));
+        setShowInterestedModal(true);
+        return;
+      }
+      setPhoneStatus(selectedStatus);
       console.log('Response from backend:', data);
-      handleGeneratePhoneNumber(); // Re-fetch the generated phone number and history
-
+      handleGeneratePhoneNumber();
     } catch (error) {
       console.error('Error:', error);
     }
   };
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name } = e.target;
+  
+    if ((e.target as HTMLInputElement).type === 'checkbox') {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: (e.target as HTMLInputElement).checked, // Explicitly cast to HTMLInputElement
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: e.target.value,
+      }));
+    }
+  };
+  
+  
+  
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('http://localhost:8000/leads/new_lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to submit interested form');
+      }
+  
+      const data = await response.json();
+      console.log('Interested form submitted:', data);
+  
+      // Show success animation and then reset form data after 2 seconds
+      setLeadSubmittedSuccessfully(true);
+  
+      // Set a delay to hide the success animation and reset the form
+      setTimeout(() => {
+        setLeadSubmittedSuccessfully(false);  // Hide the success animation
+        setShowInterestedModal(false);  // Close the modal after 2 seconds
+        handleGeneratePhoneNumber();  // Handle any other necessary actions
+  
+        // Reset form data
+        setFormData({
+          contact_name: '',
+          email: '',
+          phone_number: '',
+          interestedProducts: '',
+          age: '',
+          hasPartner: false,
+          country: '',
+          locality_of_meeting: '',
+          occupation: '',
+          tracking_source: '',
+          notes: '',
+          lead_status: 'new',
+        });
+      }, 3000); // The duration of the success animation
+    } catch (error) {
+      console.error('Error submitting interested form:', error);
+    }
+  };
+  
 
+  const closeModal = () => {
+    setShowInterestedModal(false);
+  };
+
+  if (leadSubmittedSuccessfully) {
+    return (
+      <div>
+        <div className="leadSubmittedSuccessfullyAnimation">
+          <h1 className="leadSubmittedText">Congratulations on Submitting a lead!🥳🎉🥂</h1>
+  
+          {/* More Money Rain */}
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+          <div className="money">💵</div>
+        </div>
+      </div>
+    );
+  }
+  
+  
   if (generatingPhoneNumber) return <div><div className="LoadingScreen">Generating Phone Number...<div className="spinner"></div></div></div>;
+
   if (userLoading) {
     return (
       <div>
@@ -105,21 +220,19 @@ const NumberGeneratorPage: React.FC = () => {
       <div className='pageBodyContainer'>
         <div className='generatePhoneNumberContainer'>
           <h2>Generate a Phone Number</h2>
-          {/* Conditionally render the "Generate" button only if the number has not been generated */}
           {!generatedNumber && (
             <button
               className='generatePhoneNumberButton'
               onClick={handleGeneratePhoneNumber}
-              disabled={generatingPhoneNumber} // Disable the button while generating
+              disabled={generatingPhoneNumber}
             >
-              {generatingPhoneNumber ? 'Generating...' : 'Generate'}  {/* Change text while generating */}
+              {generatingPhoneNumber ? 'Generating...' : 'Generate'}
             </button>
           )}
-
           <div className='generatedPhoneNumberContainer'>
             {generatedNumber && (
               <div className="generatedPhoneNumberContentsContainer">
-                <div className='generatedPhoneNumberContainerBox'>
+                <div className='ContainerBox'>
                   <div>
                     <h3 className="generatedPhoneNumberSectionTitle">Generated Phone Number</h3>
                     <div className='generatedPhoneNumberBox'>
@@ -127,97 +240,92 @@ const NumberGeneratorPage: React.FC = () => {
                     </div>
                   </div>
                   <h3 className="generatedPhoneNumberSectionTitle">Notes</h3>
-                  {generatedNumberHistory && (
-                    <div className="generatedNumberHistory">
-                      <ul className='generatedNumberHistoryUl'>
-                        {generatedNumberHistory.length === 0 && (
-                          <p>None</p>
-                        )}
-                        {generatedNumberHistory.length > 0 && generatedNumberHistory.map((historyItem, index) => (
-                          <li key={index}>
-                            <p><strong>Call Status:</strong> {historyItem.call_history}</p>
-                            <p><strong>Creator:</strong> {historyItem.creator}</p>
-                            <p><strong>Assignee:</strong> {historyItem.assignee || "N/A"}</p>
-                            <p><strong>Date Created:</strong> {new Date(historyItem.date_created).toLocaleString()}</p>
-                            <hr />
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  {generatedNumberHistory.length === 0 ? (
+                    <p className="numberHistorySection">None</p>
+                  ) : (
+                    <ul className='numberHistorySection'>
+                      {generatedNumberHistory.map((historyItem, index) => (
+                        <li key={index}>
+                          <p><strong>Call Status:</strong> {historyItem.call_history}</p>
+                          <p><strong>Creator:</strong> {historyItem.creator}</p>
+                          <p><strong>Assignee:</strong> {historyItem.assignee || "N/A"}</p>
+                          <p><strong>Date Created:</strong> {new Date(historyItem.date_created).toLocaleString()}</p>
+                          <hr />
+                        </li>
+                      ))}
+                    </ul>
                   )}
                   <h3 className="generatedPhoneNumberSectionTitle">Number History</h3>
-                  {generatedNumberHistory.length === 0 && (
-                    <div className="generatedNumberHistory">
-                      <p className='noneText'>None</p>
-                    </div>
-                  )}
-                  {generatedNumberHistory.length > 0 && (
-                    <div className="generatedNumberHistory">
-                      <ul>
-                        {generatedNumberHistory.map((historyItem, index) => (
-                          <li key={index}>
-                            <p><strong>Call status:</strong> {historyItem.call_history}</p>
-                            <p><strong>Creator:</strong> {historyItem.creator}</p>
-                            <p><strong>Assignee:</strong> {historyItem.assignee || "N/A"}</p>
-                            <p><strong>Date Created:</strong> {new Date(historyItem.date_created).toLocaleString()}</p>
-                            <hr />
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  {generatedNumberHistory.length === 0 ? (
+                    <p className="numberHistorySection">None</p>
+                  ) : (
+                    <ul>
+                      {generatedNumberHistory.map((historyItem, index) => (
+                        <li key={index}>
+                          <p><strong>Call status:</strong> {historyItem.call_history}</p>
+                          <p><strong>Creator:</strong> {historyItem.creator}</p>
+                          <p><strong>Assignee:</strong> {historyItem.assignee || "N/A"}</p>
+                          <p><strong>Date Created:</strong> {new Date(historyItem.date_created).toLocaleString()}</p>
+                          <hr />
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </div>
-                <div className='generatedPhoneNumberContainerBox'>
-                  <div className='phoneStatusButtonsContainer'>
-                    <h3 className='callOutcomeTitle'>Call Outcome</h3>
-                    <div className="phoneStatusButtons">
-                      {/* Button for each phone status */}
-                      <button
-                        className={`statusButtonInterested ${phoneStatus === 'interested' ? 'active' : ''}`}
-                        onClick={() => handleStatusChange('interested')}
-                      >
-                        Interested
-                      </button>
-                      <button
-                        className={`statusButtonNotInterested ${phoneStatus === 'notInterested' ? 'active' : ''}`}
-                        onClick={() => handleStatusChange('Not Interested: Call')}
-                      >
-                        Not Interested
-                      </button>
-                      <button
-                        className={`statusButton ${phoneStatus === 'callback' ? 'active' : ''}`}
-                        onClick={() => handleStatusChange('callback')}
-                      >
-                        Call Back
-                      </button>
-                      <button
-                        className={`statusButton ${phoneStatus === 'unreachable' ? 'active' : ''}`}
-                        onClick={() => handleStatusChange('unreachable')}
-                      >
-                        Unreachable
-                      </button>
-                      <button
-                        className={`statusButtonDoNotCall ${phoneStatus === 'dnc' ? 'active' : ''}`}
-                        onClick={() => handleStatusChange('dnc')}
-                      >
-                        Do-Not-Call Requested
-                      </button>
-                      <button
-                        className={`statusButtonSkip ${phoneStatus === 'skipnumber' ? 'active' : ''}`}
-                        onClick={() => handleStatusChange('skipnumber')}
-                      >
-                        Skip Number
-                      </button>
-                    </div>
+                <div className='phoneStatusButtonsContainer'>
+                  <h3 className='callOutcomeTitle'>Call Outcome</h3>
+                  <div className="phoneStatusButtons">
+                    <button
+                      className={`statusButtonInterested ${phoneStatus === 'interested' ? 'active' : ''}`}
+                      onClick={() => handleStatusChange('interested')}
+                    >
+                      Interested
+                    </button>
+                    <button
+                      className={`statusButtonNotInterested ${phoneStatus === 'notInterested' ? 'active' : ''}`}
+                      onClick={() => handleStatusChange('Not Interested: Call')}
+                    >
+                      Not Interested
+                    </button>
+                    <button
+                      className={`statusButton ${phoneStatus === 'callback' ? 'active' : ''}`}
+                      onClick={() => handleStatusChange('callback')}
+                    >
+                      Call Back
+                    </button>
+                    <button
+                      className={`statusButton ${phoneStatus === 'unreachable' ? 'active' : ''}`}
+                      onClick={() => handleStatusChange('unreachable')}
+                    >
+                      Unreachable
+                    </button>
+                    <button
+                      className={`statusButtonDoNotCall ${phoneStatus === 'dnc' ? 'active' : ''}`}
+                      onClick={() => handleStatusChange('dnc')}
+                    >
+                      Do-Not-Call Requested
+                    </button>
+                    <button
+                      className={`statusButtonSkip ${phoneStatus === 'skipnumber' ? 'active' : ''}`}
+                      onClick={() => handleStatusChange('skipnumber')}
+                    >
+                      Skip Number
+                    </button>
                   </div>
                 </div>
               </div>
             )}
-
             {error && <p style={{ color: 'red' }}>{error}</p>}
           </div>
         </div>
       </div>
+      <InterestedFormModal
+        showModal={showInterestedModal}
+        formData={formData}
+        handleChange={handleFormChange}
+        handleSubmit={handleFormSubmit}
+        closeModal={closeModal}
+      />
     </div>
   );
 };

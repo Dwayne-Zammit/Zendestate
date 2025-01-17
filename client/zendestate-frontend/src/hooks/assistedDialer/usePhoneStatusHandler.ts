@@ -11,7 +11,7 @@ const usePhoneStatusHandler = (): PhoneStatusHandlerHook => {
 
   const handleStatusChange = async (
     selectedStatus: string,
-    phoneNumber: string | null,
+    phone_number: string | null,
     refreshNumbers: () => Promise<void>
   ) => {
     setPhoneStatus(selectedStatus);
@@ -21,7 +21,7 @@ const usePhoneStatusHandler = (): PhoneStatusHandlerHook => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ call_status: selectedStatus, phone_number: phoneNumber }),
+        body: JSON.stringify({ call_status: selectedStatus, phone_number: phone_number }),
       });
 
       if (!response.ok) throw new Error('Failed to update phone status');

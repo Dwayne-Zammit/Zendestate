@@ -3,6 +3,12 @@ import { IoCall } from "react-icons/io5";
 import { IoIosBackspace } from "react-icons/io";
 import { FaSignal } from "react-icons/fa";
 import { IoIosWifi, IoIosBatteryFull } from "react-icons/io";
+import { IoIosStar } from "react-icons/io";
+import { LuClock9 } from "react-icons/lu";
+import { IoMdContact } from "react-icons/io";
+import { IoIosKeypad } from "react-icons/io";
+import { PiVoicemail } from "react-icons/pi";
+
 
 const IphoneDisplayCallNumber: React.FC = () => {
   const [number, setNumber] = useState<string>(''); 
@@ -96,8 +102,31 @@ const IphoneDisplayCallNumber: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
-    </div>
+        <div className='bottomCallNavbar'>
+              <div className='bottomCallNavbarOptionContainer'>
+                <IoIosStar size={20}/>
+                <p className='bottomDialerOptionsText'>Favourites</p>
+              </div>
+              <div className='bottomCallNavbarOptionContainer'>
+                <LuClock9 size={20}/>
+                <p className='bottomDialerOptionsText'>Recents</p>
+              </div>
+              <div className='bottomCallNavbarOptionContainer'>
+                <IoMdContact size={20}/>
+                <p className='bottomDialerOptionsText'>Contacts</p>
+              </div>
+              <div className='bottomCallNavbarOptionContainer'>
+                <IoIosKeypad size={20}/>
+                <p className='bottomDialerOptionsText'>Keypad</p>
+              </div>
+              <div className='bottomCallNavbarOptionContainer'>
+                <PiVoicemail size={20}/>
+                <p className='bottomDialerOptionsText'>Voicemail</p>
+              </div>
+            </div>
+            <div className="bottomIosMenuButton"></div>
+          </div>
+        </div>
   );
 };
 

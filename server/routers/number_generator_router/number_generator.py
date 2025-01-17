@@ -32,6 +32,5 @@ async def read_current_user(request: Request):
         user = await TortoiseUser.get(username=user_data['sub'])
     except TortoiseUser.DoesNotExist:
         raise HTTPException(status_code=404, detail="User not found")
-
     generated_number_body = await generate_random_phone_number()
     return generated_number_body

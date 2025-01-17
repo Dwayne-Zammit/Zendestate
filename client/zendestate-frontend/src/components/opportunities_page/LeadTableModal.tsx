@@ -10,6 +10,7 @@ interface LeadItem {
   phone_number: string;
   creator: string;
   assignee?: string | null;
+  contact_name: string;
 }
 
 interface LeadTableModalProps {
@@ -155,6 +156,10 @@ const LeadTableModal: React.FC<LeadTableModalProps> = ({
                   ))}
                 </select>
               </td>
+            </tr>
+            <tr>
+              <td><strong>Contact Name:</strong></td>
+              <td>{selectedItem.contact_name}</td>
             </tr>
             <tr>
               <td><strong>Contact:</strong></td>

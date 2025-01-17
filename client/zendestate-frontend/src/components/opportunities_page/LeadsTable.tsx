@@ -44,6 +44,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({ tableData, fetchTableData }) =>
               <th className='opportunitiesTableTh'>Code</th>
               <th className='opportunitiesTableTh'>Date & Time</th>
               <th className='opportunitiesTableTh'>Stage</th>
+              <th className='opportunitiesTableTh'>Contact Name</th>
               <th className='opportunitiesTableTh'>Contact</th>
               <th className='opportunitiesTableTh'>Creator</th>
               <th className='opportunitiesTableTh'>Assignee</th>
@@ -55,6 +56,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({ tableData, fetchTableData }) =>
                 <td className='opportunitiesTableTd'>{item.id}</td>
                 <td className='opportunitiesTableTd'>{new Date(item.date_created).toLocaleString()}</td>
                 <td className='opportunitiesTableTd'>{item.lead_status}</td>
+                <td className='opportunitiesTableTd'>{item.contact_name}</td>
                 <td className='opportunitiesTableTd'>{item.phone_number}</td>
                 <td className='opportunitiesTableTd'>{item.creator}</td>
                 <td className='opportunitiesTableTd'>{item.assignee || 'No Assignee'}</td>

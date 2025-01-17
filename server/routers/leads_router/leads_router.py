@@ -13,20 +13,19 @@ async def new_call_history(request: Request):
     token = request.cookies.get("access_token")
     user_data = await ensure_user_is_authenticated(token)
     
-    try:
-        request_json = await request.json()  # Parse the request body to JSON
-        print(f"Parsed JSON: {request_json}")  # Debug print to inspect the incoming data
-        # Pass the parsed JSON to create_new_lead
-        create_new_lead_result = await create_new_call_history(request_json, user_data)
-        print(f"Request_json below: {request_json}")
-        if "interested" in str(request_json["call_status"]).lower():
-            print("creating new lead")
-            await create_new_lead(request_json, user_data)
+    # try:
+    request_json = await request.json()  # Parse the request body to JSON
+    print(f"Parsed JSON: {request_json}")  # Debug print to inspect the incoming data
+    # Pass the parsed JSON to create_new_lead
+    create_new_lead_result = await create_new_call_history(request_json, user_data)
+    print(f"Request_json below: {request_json}")
+    # if "interested" in str(request_json["call_status"]).lower():
+    #     print("creating new lead")
+    #     await create_new_lead(request_json, user_data)
+    return create_new_lead_result  # Return the result of the lead creation
 
-        return create_new_lead_result  # Return the result of the lead creation
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error processing request: {str(e)}")
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail=f"Error processing request: {str(e)}")
 
 
 @router.post("/new_lead")
@@ -39,19 +38,17 @@ async def create_lead(request: Request):
     
     # Ensure user is authenticated
     user_data = await ensure_user_is_authenticated(token)
-    
     # Read the request body and parse it as JSON
-    try:
-        request_json = await request.json()  # Parse the request body to JSON
-        print(f"Parsed JSON: {request_json}")  # Debug print to inspect the incoming data
+    # try:
+    request_json = await request.json()  # Parse the request body to JSON
+    print(f"Parsed JSON: {request_json}")  # Debug print to inspect the incoming data
+    # Pass the parsed JSON to create_new_lead
+    create_new_lead_result = await create_new_lead(request_json, user_data)
+    
+    return create_new_lead_result  # Return the result of the lead creation
 
-        # Pass the parsed JSON to create_new_lead
-        create_new_lead_result = await create_new_lead(request_json, user_data)
-        
-        return create_new_lead_result  # Return the result of the lead creation
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error processing request: {str(e)}")
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail=f"Error processing request: {str(e)}")
 
 
 @router.get("/lead_history")
@@ -157,6 +154,7 @@ async def get_all_leads(
             "lead_status": lead.lead_status,
             "phone_number": lead.phone_number,
             "creator": lead.creator,
+            "contact_name": lead.contact_name,
             "assignee": lead.assignee,
             "date_created": lead.date_created,
             "date_modified": lead.date_modified,

@@ -1,0 +1,134 @@
+/* Overlay styling */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal content styling */
+  .modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%; /* Take up 90% of the screen width */
+    max-width: 600px; /* Maximum width for the modal */
+    max-height: 80vh; /* Limit the height to 80% of the viewport */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow-y: auto; /* Make the content scrollable if it exceeds max height */
+    padding-bottom: 30px; /* Make room for close button */
+  }
+  
+  /* Form Group for Inline Alignment */
+  .formGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* Allow wrapping when the screen is small */
+  }
+  
+  .formGroup label {
+    flex: 0 0 150px; /* Fixed width for labels */
+    font-weight: 500;
+    margin-bottom: 5px; /* Margin to separate labels from inputs */
+  }
+  
+  .formGroup input,
+  .formGroup textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  /* Make sure the modal is responsive */
+  @media (max-width: 768px) {
+    .modalContent {
+      width: 95%; /* 95% width for small screens */
+      max-width: none; /* Remove max-width constraint for small screens */
+    }
+  
+    .formGroup label {
+      flex: 0 0 120px; /* Reduce label width for smaller screens */
+    }
+  
+    .formGroup input,
+    .formGroup textarea {
+      font-size: 0.9rem; /* Adjust input size for small screens */
+    }
+  
+    .submitButtonContainer {
+      margin-top: 15px; /* Reduce space above submit button */
+    }
+  
+    .submitButton {
+      font-size: 0.9rem; /* Reduce button size */
+    }
+  }
+  
+  /* Submit button container */
+  .submitButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Styling for submit button */
+  button.submitButton {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background-color: #202020;
+    color: #fff;
+    width: 100%;
+  }
+  
+  button.submitButton:hover {
+    opacity: 0.9;
+  }
+  
+  /* Close button styling */
+  .closeModalButton {
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .closeModalButton:hover {
+    color: #000;
+  }
+  
+  .successMessage {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    color: green;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
