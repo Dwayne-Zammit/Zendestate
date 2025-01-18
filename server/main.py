@@ -6,6 +6,7 @@ from db.database import init_db
 from routers.auth_router import auth_router
 from routers.number_generator_router import number_generator
 from routers.leads_router import leads_router
+from routers.punch_clock_router import punch_clock_router
 
 app = FastAPI()
 
@@ -25,6 +26,7 @@ app.include_router(user_router.router, prefix="/users", tags=["users"])
 app.include_router(auth_router.router, prefix="/auth", tags=["auth"])
 app.include_router(number_generator.router, prefix="/assisted_dialer", tags=["assisted_dialer"])
 app.include_router(leads_router.router, prefix="/leads", tags=["leads_router"])
+app.include_router(punch_clock_router.router, prefix="/punch_clock", tags=["punch_clock_router"])
 
 @app.get("/")
 def read_root():
