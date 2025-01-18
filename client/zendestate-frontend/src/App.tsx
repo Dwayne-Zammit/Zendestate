@@ -15,7 +15,7 @@ const App: React.FC = () => {
         
         <div className="content-container">
           <Navbar /> 
-          <TopNavbar />
+          <TopNavbar /> Top Navbar
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/" element={<Navigate to="/dashboard" />} /> {/* Redirect to dashboard if on root */}

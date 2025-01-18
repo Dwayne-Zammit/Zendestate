@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation from react-router-dom
 import '../../styles/navbar/topNavbar.css';
 
+
+
 const TopNavbar: React.FC = () => {
   const location = useLocation();  // Get the current location/path
   const [time, setTime] = useState(0);  // Store time in seconds
@@ -35,27 +37,30 @@ const TopNavbar: React.FC = () => {
         },
         credentials: 'include', // This ensures cookies are sent
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.detail || 'Failed to check for active shift');
       }
-
+  
       const data = await response.json();
-
+  
       if (data.elapsed_time) {
         const [hours, minutes, seconds] = data.elapsed_time.split(':').map(Number);
         setTime(hours * 3600 + minutes * 60 + seconds);  // Convert elapsed time to seconds
         setIsRunning(true);  // Start the timer since there's an existing active shift
         setExistingShift(true);  // Mark that there's an active shift
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         if (!error.message.includes("No active shift found.")) {
-            setError(error instanceof Error ? error.message : 'An error occurred');
+          setError(error.message);  // Handle the error if it's an instance of Error
         }
-        
+      } else {
+        setError('An unknown error occurred');  // Handle case where error is not an instance of Error
+      }
     }
-  };
+  };  
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;

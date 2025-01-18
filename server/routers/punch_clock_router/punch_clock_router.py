@@ -104,4 +104,5 @@ async def check_for_unterminated_shift(request: Request):
     # Format as HH:MM:SS
     formatted_time = f"{hours:02}:{minutes:02}:{seconds:02}"
 
+
     return {"message": "Active shift found", "elapsed_time": formatted_time}
